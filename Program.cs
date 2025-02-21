@@ -13,11 +13,13 @@ namespace labb3_Blazor
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
 
-            //Lägg till HTTPClient med bas url
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-            
-            //Lägg till APIService för att anrpo api:et
+            // Lägg till HttpClient med bas-URL från miljön
+            var apiBaseUrl = builder.Configuration["ApiBaseUrl"];
+            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(apiBaseUrl) });
+
+            // Lägg till ApiService för att anropa API:et
             builder.Services.AddScoped<ApiService>();
+
 
 
 
