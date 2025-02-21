@@ -1,0 +1,16 @@
+﻿# Build-mappar
+bin/
+obj/
+
+# Visual Studio-specifika filer
+.vs/
+*.user
+*.suo
+
+# NuGet-paket
+*.nupkg
+# packages/ (om du använder en lokal paketcache)
+
+# Andra temporära filer
+*.log
+project.lock.json
