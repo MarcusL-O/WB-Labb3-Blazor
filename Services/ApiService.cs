@@ -17,13 +17,25 @@ namespace labb3_Blazor.Services
         //Hämta alla tekonoliger
         public async Task<List<Technology>> GetTechnologiesAsync()
         {
-            return await _httpClient.GetFromJsonAsync<List<Technology>>("api/technologies");
+            return await _httpClient.GetFromJsonAsync<List<Technology>>("/api/technologies");
+        }
+
+        public async Task<Technology> AddTechnologyAsync(Technology tech)
+        {
+            //Skickar ett Post-anrop
+            var response = await _httpClient.PostAsJsonAsync("apii/technologies", tech);
+
+            //Om godkänt koden går vidare, annars kastas ett fel med statuskod
+            response.EnsureSuccessStatusCode();
+
+            //Läser och retunerar svar från api
+            return await response.Content.ReadFromJsonAsync<Technology>();
         }
 
         // Hämta alla projekt
-        public async Task<List<Projectcs>> GetProjectsAsync()
+        public async Task<List<Projects>> GetProjectsAsync()
         {
-            return await _httpClient.GetFromJsonAsync<List<Projectcs>>("api/projects");
+            return await _httpClient.GetFromJsonAsync<List<Projects>>("/api/projects");
         }
 
         // resten av crud för båda

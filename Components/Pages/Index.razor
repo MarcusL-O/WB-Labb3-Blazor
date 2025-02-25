@@ -1,0 +1,85 @@
+﻿@using labb3_Blazor.Services;
+@using labb3_Blazor.Models;
+@page "/"
+
+@inject ApiService apiservice
+
+<h3>Teknologier</h3>
+@if (technologies == null)
+{
+    <p> error, finn inte</p>
+}
+
+<!--Skriver ut innehåll i technologies-->
+<table class="table">
+    <thread>
+        <tr>
+            <th>Name</th>
+            <th>YearsOfExperience</th>
+            <th>Skill level</th>
+        </tr>
+    </thread>
+    <tbody>
+        @foreach(var tech in technologies)
+        {
+            <tr>
+                <td>tech.Name</td>
+                <td>tech.YearsOfExperience</td>
+                <td>tech.Skilllevel</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h3>Projekt</h3>
+@if (projects == null)
+{
+    <p>Laddar data...</p>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Technologies Used</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var proj in projects)
+        {
+            <tr>
+                <td>@proj.Title</td>
+                <td>@proj.Description</td>
+                <td>@proj.TechnologiesUsed</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    // skapar lister
+    private List<Technology> technologies;
+    private List<Projects> projects;
+
+    // Kallar på async metod i APIService
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Testdata för att se om tabellen fungerar
+        technologies = new List<Technology>
+        {
+            new Technology { Name = "C#", YearsOfExperience = 3, SkillLevel = "Expert" },
+            new Technology { Name = "JavaScript", YearsOfExperience = 2, SkillLevel = "Medel" }
+        };
+
+        projects = new List<Projects>
+        {
+            new Projects { Title = "Blazor App", Description = "En webbapp med Blazor", TechnologiesUsed = "C#, Blazor, SQL" }
+        };
+
+        // Nedan är rätt kod 
+        //technologies = await apiservice.GetTechnologiesAsync();
+        //projects = await apiservice.GetProjectsAsync();
+    }
+}
