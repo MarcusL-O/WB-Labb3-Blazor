@@ -1,85 +1,119 @@
 ﻿@using labb3_Blazor.Services;
 @using labb3_Blazor.Models;
 @page "/"
-
 @inject ApiService apiservice
 
-<h3>Teknologier</h3>
-@if (technologies == null)
-{
-    <p> error, finn inte</p>
-}
 
-<!--Skriver ut innehåll i technologies-->
-<table class="table">
-    <thread>
-        <tr>
-            <th>Name</th>
-            <th>YearsOfExperience</th>
-            <th>Skill level</th>
-        </tr>
-    </thread>
-    <tbody>
-        @foreach(var tech in technologies)
+<!-- HEADER -->
+<header class="text-center py-5">
+    <!-- Profilbild: Ange sökväg till din egen bild -->
+    <img src="path/to/your-profile-image.jpg" alt="Profilbild" class="rounded-circle mb-3" style="width: 150px; height: 150px;">
+    <!-- Ditt namn -->
+    <h1><!-- Här skriver du ditt namn --></h1>
+    <!-- Kort beskrivning om dig -->
+    <p class="lead"><!-- Här skriver du en beskrivning om dig --></p>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="container">
+    <!-- PROJEKT-TABELL -->
+    <section class="mb-5">
+        <h2 class="mb-4">Mina Projekt</h2>
+        @if (projects == null)
         {
-            <tr>
-                <td>tech.Name</td>
-                <td>tech.YearsOfExperience</td>
-                <td>tech.Skilllevel</td>
-            </tr>
+            <p>Laddar projekt...</p>
         }
-    </tbody>
-</table>
-
-<h3>Projekt</h3>
-@if (projects == null)
-{
-    <p>Laddar data...</p>
-}
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Technologies Used</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var proj in projects)
+        else
         {
-            <tr>
-                <td>@proj.Title</td>
-                <td>@proj.Description</td>
-                <td>@proj.TechnologiesUsed</td>
-            </tr>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Titel</th>
+                        <th>Beskrivning</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var proj in projects)
+                    {
+                        <tr>
+                            <td>@proj.Title</td>
+                            <td>@proj.Description</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         }
-    </tbody>
-</table>
+    </section>
+
+    <!-- SKILLS-/TEKNOLOGI-TABELL -->
+    <section class="mb-5">
+        <h2 class="mb-4">Mina Teknologier</h2>
+        @if (technologies == null)
+        {
+            <p>Laddar teknologier...</p>
+        }
+        else
+        {
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Namn</th>
+                        <th>Erfarenhet (år)</th>
+                        <th>Skill-nivå</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var tech in technologies)
+                    {
+                        <tr>
+                            <td>@tech.Name</td>
+                            <td>@tech.YearsOfExperience</td>
+                            <td>@tech.SkillLevel</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </section>
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-dark text-white py-4">
+    <div class="container text-center">
+        <h4>Teknologier</h4>
+        <div class="row justify-content-center mb-3">
+            @if (technologies == null)
+            {
+                <p>Laddar teknologier...</p>
+            }
+            else
+            {
+                @* Varje teknologi förväntas ha en bild-URL som du fyller i via API:t (t.ex. "tech.ImageUrl") *@
+                @foreach (var tech in technologies)
+                {
+                    <div class="col-3 col-md-2">
+                        <!--<img src="@tech.ImageUrl" alt="@tech.Name" class="img-fluid" style="max-height:50px;"> -->
+                    </div>
+                }
+            }
+        </div>
+        <div class="d-flex justify-content-center">
+            <!-- Fyll i din egen GitHub-länk -->
+            <a href="https://github.com/your-github" target="_blank" class="text-white mx-2">GitHub</a>
+            <!-- Fyll i din egen LinkedIn-länk -->
+            <a href="https://www.linkedin.com/in/your-linkedin" target="_blank" class="text-white mx-2">LinkedIn</a>
+        </div>
+    </div>
+</footer>
 
 @code {
-    // skapar lister
+    // skapar lista
     private List<Technology> technologies;
     private List<Projects> projects;
 
-    // Kallar på async metod i APIService
-
     protected override async Task OnInitializedAsync()
     {
-        // Testdata för att se om tabellen fungerar
-        technologies = new List<Technology>
-        {
-            new Technology { Name = "C#", YearsOfExperience = 3, SkillLevel = "Expert" },
-            new Technology { Name = "JavaScript", YearsOfExperience = 2, SkillLevel = "Medel" }
-        };
-
-        projects = new List<Projects>
-        {
-            new Projects { Title = "Blazor App", Description = "En webbapp med Blazor", TechnologiesUsed = "C#, Blazor, SQL" }
-        };
-
-        // Nedan är rätt kod 
-        //technologies = await apiservice.GetTechnologiesAsync();
-        //projects = await apiservice.GetProjectsAsync();
+        technologies = await apiservice.GetTechnologiesAsync();
+        projects = await apiservice.GetProjectsAsync();
     }
 }
