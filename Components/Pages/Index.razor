@@ -3,157 +3,107 @@
 @page "/"
 @inject ApiService apiservice
 
+<div class="container p-4 border rounded" style="max-width: 800px;">
+    <div class="d-flex flex-column align-items-center">
+        <!-- HEADER -->
+        <header class="text-center py-5 w-100">
+            <img src="Images/Profilbild.jpg" alt="Profilbild" class="rounded-circle border border-dark mb-3" style="width: 150px; height: 150px;">
+            <h1>Marcus Lis-Olivebring</h1>
+            <h2>Om mig:</h2>
+            <p class="lead">
+                Jag har alltid gillat att förstå hur saker fungerar och lösa problem på ett logiskt sätt. Det var så jag drogs in i IT-världen. Jag trivs bäst när jag får arbeta praktiskt, optimera lösningar och skapa något som faktiskt gör skillnad.
+                <br /><br />
+                Teknik utvecklas snabbt, och för mig handlar det inte bara om att hänga med – utan om att aktivt bidra och utvecklas i takt med den. Jag gillar att testa nya idéer, hitta smartare sätt att göra saker på och samarbeta med andra för att lösa utmaningar.
+                <br /><br />
+                Jag ser fram emot att fortsätta växa och hitta nya möjligheter inom IT.
+            </p>
+        </header>
 
-<!-- HEADER -->
-<header class="text-center py-5">
-   
-    <!-- Profilbild: Ange sökväg till din egen bild -->
-    <img src="path/to/your-profile-image.jpg" alt="Profilbild" class="rounded-circle mb-3" style="width: 150px; height: 150px;">
+        <!-- UTBILDNING & CERTIFIKAT -->
+        <div class="my-4 w-100">
+            <!-- Certifikat -->
+            <div class="row">
+                <!-- Klarade Certifikat -->
+                <div class="col-md-6 mb-4">
+                    <h3 class="text-center">Klarade Certifikat</h3>
+                    <div class="card">
+                        <div class="card-body d-flex flex-column align-items-center">
+                            <p class="mb-2">AZ-900</p>
+                            <a href="https://learn.microsoft.com/api/credentials/share/en-us/MarcusLisOlivebring-4473/FAC4988FCC2323A?sharingId=EE70EA8119EE143" target="_blank">
+                                <img src="images/Azure.png" alt="Microsoft Azure AZ-900 Certifikat" class="img-fluid" style="width:50px; height:50px;">
+                            </a>
+                        </div>
+                    </div>
+                </div>
 
-    <h1>Marcus Lis-Olivebring</h1>
-
-    <p class="lead">Jag är ne kille som är 24 år gamalala bala smd s dls ld sa dsa kd </p>
-</header>
-
-<!-- UTBILDNING & CERTIFIKAT -->
-<div class="container my-4">
-    <!-- Utbildning -->
-    <div class="card mb-4">
-        <div class="card-header d-flex align-items-center">
-            <!-- Bild bredvid rubriken -->
-            <img src="Images/Education.png" alt="Ithögskolan" class="img-fluid mr-3" style="width:50px; height:50px;">
-            <div>
-                <h3 class="mb-0">Ithögskolan</h3>
-                <small>2024 - 2026</small>
+                <!-- Pågående Certifikat -->
+                <div class="col-md-6 mb-4">
+                    <h3 class="text-center">Pågående Certifikat</h3>
+                    <div class="card mb-3">
+                        <div class="card-body d-flex flex-column align-items-center">
+                            <p class="mb-2">Exempel på certifikat</p>
+                            <a href="#" target="_blank">
+                                <img src="/Images/Azure.png" alt="Az-104" class="img-fluid" style="width:50px; height:50px;">
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="card-body">
-            <p>Läser Fullstack med inriktning på Cloud Engineering. Här kombinerar jag teori med praktiska moment för att fördjupa mina kunskaper inom modern webbutveckling och molnteknologier.</p>
-        </div>
-    </div>
 
-    <!-- Certifikat -->
-    <div class="row">
-        <!-- Klarade Certifikat -->
-        <div class="col-md-6 mb-4">
-            <h3>Klarade Certifikat</h3>
-            <div class="card">
-                <div class="card-body d-flex align-items-center">
-                    <img src="images/Azure.png" alt="Az-900" class="img-fluid mr-3" style="width:50px; height:50px;">
-                    <a href="https://learn.microsoft.com/api/credentials/share/en-us/MarcusLisOlivebring-4473/FAC4988FCC2323A?sharingId=EE70EA8119EE143" target="_blank"></a>
+            <!-- Utbildning -->
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <img src="Images/School.png" alt="IT-Högskolan" class="img-fluid" style="width:50px; height:50px;">
+                        <div class="ml-3">
+                            <h3 class="mb-0">IT-Högskolan</h3>
+                        </div>
+                    </div>
+                    <small>2024 - 2026</small>
+                </div>
+                <div class="card-body">
+                    <p>
+                        Läser Fullstack med inriktning på Cloud Engineering.
+                        Här kombinerar jag teori med praktiska moment för att fördjupa mina kunskaper inom fullstackutveckling och molnteknologier.
+                    </p>
                 </div>
             </div>
         </div>
 
-        <!-- Pågående Certifikat -->
-        <div class="col-md-6 mb-4">
-            <h3>Pågående Certifikat</h3>
-            <div class="card mb-3">
-                <div class="card-body d-flex align-items-center">
-                    <img src="/Images/Azure.png" alt="Az-104" class="img-fluid mr-3" style="width:50px; height:50px;">
+        <!-- FOOTER -->
+        <footer class="bg-dark text-white py-4 w-100">
+            <div class="container text-center">
+                <h4>Teknologier jag har lärt mig:</h4>
+                <div class="row justify-content-center mb-3">
+                    @if (technologies == null)
+                    {
+                        <p>Laddar teknologier...</p>
+                    }
+                    else
+                    {
+                        @foreach (var tech in technologies)
+                        {
+                            <div class="col-3 col-md-2">
+                                <img src="@tech.ImageUrl" alt="@tech.Name" class="img-fluid" style="max-height:50px;">
+                            </div>
+                        }
+                    }
+                </div>
+                <div class="d-flex justify-content-center">
+                    <a href="https://github.com/MarcusL-O" target="_blank" class="text-white mx-2">
+                        <img src="images/Github.png" alt="Github" width="40" />
+                    </a>
+                    <a href="mailto:marcus.lisolivebring@gmail.com" class="mx-2">
+                        <img src="images/Email.png" alt="E-post" width="40">
+                    </a>
+                    <a href="https://www.linkedin.com/in/marcus-lis-olivebring-2ab0a3223/" target="_blank" class="text-white mx-2">
+                        <img src="images/LinkedIn.png" alt="LinkedIn" width="40" />
+                    </a>
                 </div>
             </div>
-        </div>
+        </footer>
     </div>
 </div>
-
-<!-- MAIN -->
-<main class="container">
-    <!-- PROJEKT-TABELL -->
-    <section class="mb-5">
-        <h2 class="mb-4">Mina Projekt</h2>
-        @if (projects == null)
-        {
-            <p>Laddar projekt...</p>
-        }
-        else
-        {
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Titel</th>
-                        <th>Beskrivning</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var proj in projects)
-                    {
-                        <tr>
-                            <td>@proj.Title</td>
-                            <td>@proj.Description</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        }
-    </section>
-
-    <!-- SKILLS-/TEKNOLOGI-TABELL -->
-    <section class="mb-5">
-        <h2 class="mb-4">Mina Teknologier</h2>
-        @if (technologies == null)
-        {
-            <p>Laddar teknologier...</p>
-        }
-        else
-        {
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Namn</th>
-                        <th>Erfarenhet (år)</th>
-                        <th>Skill-nivå</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var tech in technologies)
-                    {
-                        <tr>
-                            <td>@tech.Name</td>
-                            <td>@tech.YearsOfExperience</td>
-                            <td>@tech.SkillLevel</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        }
-    </section>
-</main>
-
-<!-- FOOTER -->
-<footer class="bg-dark text-white py-4">
-    <div class="container text-center">
-        <h4>Teknologier jag har lärt mig:</h4>
-        <div class="row justify-content-center mb-3">
-            @if (technologies == null)
-            {
-                <p>Laddar teknologier...</p>
-            }
-            else
-            {
-                @foreach (var tech in technologies)
-                {
-                    <div class="col-3 col-md-2">
-                        <img src="@tech.ImageUrl" alt="@tech.Name" class="img-fluid" style="max-height:50px;">
-                    </div>
-                }
-            }
-        </div>
-        <div class="d-flex justify-content-center">
-            <a href="https://github.com/MarcusL-O" target="_blank" class="text-white mx-2">
-                <img src="images/Github.png" alt=" = Github" width="40"/>
-            </a>
-
-            <a href="marcus.lisolivebring@gmail.com" class="mx-2">
-                <img src="images/Email.png" alt="E-post" width="40">
-            </a>
-
-            <a href="https://www.linkedin.com/in/marcus-lis-olivebring-2ab0a3223/" target="_blank" class="text-white mx-2">
-                <img src="images/LinkedIn.png" alt=" = Github" width="40" />
-            </a>
-        </div>
-    </div>
-</footer>
 
 @code {
     // skapar lista
