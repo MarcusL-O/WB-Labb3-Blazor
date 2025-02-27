@@ -6,15 +6,58 @@
 
 <!-- HEADER -->
 <header class="text-center py-5">
+   
     <!-- Profilbild: Ange sökväg till din egen bild -->
     <img src="path/to/your-profile-image.jpg" alt="Profilbild" class="rounded-circle mb-3" style="width: 150px; height: 150px;">
 
     <h1>Marcus Lis-Olivebring</h1>
-   
+
     <p class="lead">Jag är ne kille som är 24 år gamalala bala smd s dls ld sa dsa kd </p>
 </header>
 
-<!-- MAIN CONTENT -->
+<!-- UTBILDNING & CERTIFIKAT -->
+<div class="container my-4">
+    <!-- Utbildning -->
+    <div class="card mb-4">
+        <div class="card-header d-flex align-items-center">
+            <!-- Bild bredvid rubriken -->
+            <img src="Images/Education.png" alt="Ithögskolan" class="img-fluid mr-3" style="width:50px; height:50px;">
+            <div>
+                <h3 class="mb-0">Ithögskolan</h3>
+                <small>2024 - 2026</small>
+            </div>
+        </div>
+        <div class="card-body">
+            <p>Läser Fullstack med inriktning på Cloud Engineering. Här kombinerar jag teori med praktiska moment för att fördjupa mina kunskaper inom modern webbutveckling och molnteknologier.</p>
+        </div>
+    </div>
+
+    <!-- Certifikat -->
+    <div class="row">
+        <!-- Klarade Certifikat -->
+        <div class="col-md-6 mb-4">
+            <h3>Klarade Certifikat</h3>
+            <div class="card">
+                <div class="card-body d-flex align-items-center">
+                    <img src="images/Azure.png" alt="Az-900" class="img-fluid mr-3" style="width:50px; height:50px;">
+                    <a href="https://learn.microsoft.com/api/credentials/share/en-us/MarcusLisOlivebring-4473/FAC4988FCC2323A?sharingId=EE70EA8119EE143" target="_blank"></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pågående Certifikat -->
+        <div class="col-md-6 mb-4">
+            <h3>Pågående Certifikat</h3>
+            <div class="card mb-3">
+                <div class="card-body d-flex align-items-center">
+                    <img src="/Images/Azure.png" alt="Az-104" class="img-fluid mr-3" style="width:50px; height:50px;">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MAIN -->
 <main class="container">
     <!-- PROJEKT-TABELL -->
     <section class="mb-5">
@@ -80,7 +123,7 @@
 <!-- FOOTER -->
 <footer class="bg-dark text-white py-4">
     <div class="container text-center">
-        <h4>Teknologier</h4>
+        <h4>Teknologier jag har lärt mig:</h4>
         <div class="row justify-content-center mb-3">
             @if (technologies == null)
             {
@@ -88,7 +131,6 @@
             }
             else
             {
-                @* Varje teknologi förväntas ha en bild-URL som du fyller i via API:t (t.ex. "tech.ImageUrl") *@
                 @foreach (var tech in technologies)
                 {
                     <div class="col-3 col-md-2">
@@ -98,10 +140,17 @@
             }
         </div>
         <div class="d-flex justify-content-center">
-            <!-- Fyll i din egen GitHub-länk -->
-            <a href="https://github.com/your-github" target="_blank" class="text-white mx-2">GitHub</a>
-            <!-- Fyll i din egen LinkedIn-länk -->
-            <a href="https://www.linkedin.com/in/your-linkedin" target="_blank" class="text-white mx-2">LinkedIn</a>
+            <a href="https://github.com/MarcusL-O" target="_blank" class="text-white mx-2">
+                <img src="images/Github.png" alt=" = Github" width="40"/>
+            </a>
+
+            <a href="marcus.lisolivebring@gmail.com" class="mx-2">
+                <img src="images/Email.png" alt="E-post" width="40">
+            </a>
+
+            <a href="https://www.linkedin.com/in/marcus-lis-olivebring-2ab0a3223/" target="_blank" class="text-white mx-2">
+                <img src="images/LinkedIn.png" alt=" = Github" width="40" />
+            </a>
         </div>
     </div>
 </footer>

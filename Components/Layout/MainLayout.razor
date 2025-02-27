@@ -1,13 +1,22 @@
 ﻿@inherits LayoutComponentBase
-<div>
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
 
-        <article class="content px-4">
-            @Body
-        </article>
+<div class="@ContainerClass">
+    <header class="top-row px-4">
+        <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+        <button class="mode-toggle" @onclick="ToggleNightMode">
+            @if (IsDarkMode)
+            {
+                <i class="bi bi-moon-fill"></i>
+            }
+            else
+            {
+                <i class="bi bi-sun-fill"></i>
+            }
+        </button>
+    </header>
+
+    <main class="content px-4">
+        @Body
     </main>
 </div>
 
@@ -16,3 +25,23 @@
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
 </div>
+
+@code {
+    private bool IsDarkMode = false;
+
+    private string ContainerClass => IsDarkMode ? "dark-mode" : "light-mode";
+
+    private void ToggleNightMode()
+    {
+        IsDarkMode = !IsDarkMode;
+    }
+}
+
+
+
+<div id="blazor-error-ui">
+    An unhandled error has occurred.
+    <a href="" class="reload">Reload</a>
+    <a class="dismiss">🗙</a>
+</div>
+
