@@ -14,7 +14,7 @@ namespace labb3_Blazor
                 .AddInteractiveServerComponents();
 
             // Lägg till HttpClient med bas-URL 
-            var apiBaseUrl = builder.Configuration["ApiBaseUrl"];
+            var apiBaseUrl = "https://localhost:7032/";
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(apiBaseUrl) });
 
             // Lägg till ApiService för att anropa API:et
