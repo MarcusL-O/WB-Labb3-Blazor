@@ -1,21 +1,15 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="@ContainerClass">
+<div class="dark-mode">
     <div class="container p-4" style="max-width: 800px;">
         <!-- Översta navigationsraden -->
         <div class="d-flex justify-content-between align-items-center mb-4">
             <!-- Vänster: Home-knapp -->
-            <NavLink href="/" class="custom-navlink">Home</NavLink>
-
-            <!-- Höger: Certifikat, Erfarenheter & Light/Dark Mode-knappar -->
+            <button class="custom-navlink btn" onclick="window.location.href='/'">Home</button>
+            <!-- Höger: Certifikat & Erfarenheter -->
             <div>
-                <NavLink href="/certifikat" class="custom-navlink">Certifikat</NavLink>
-                <NavLink href="/erfarenheter" class="custom-navlink">Erfarenheter</NavLink>
-
-                <!-- Dark/Light Mode-knapp -->
-                <button class="mode-toggle btn btn-link" @onclick="ToggleNightMode">
-                    <img src="@ModeImageUrl" alt="Toggle mode" style="width:30px; height:30px;" />
-                </button>
+                <button class="custom-navlink btn" onclick="window.location.href='/certifikat'">Certifikat</button>
+                <button class="custom-navlink btn" onclick="window.location.href='/erfarenheter'">Erfarenheter</button>
             </div>
         </div>
 
@@ -26,28 +20,22 @@
     </div>
 </div>
 
-<div id="blazor-error-ui">
-    An unhandled error has occurred.
-    <a href="" class="reload">Reload</a>
-    <a class="dismiss">🗙</a>
-</div>
-
-@code {
-    private bool IsDarkMode = false;
-    
-    private string ContainerClass => IsDarkMode ? "dark-mode" : "light-mode";
-    private string ModeImageUrl => IsDarkMode ? "images/DarkMode.png" : "images/LightMode.png";
-
-    private void ToggleNightMode()
-    {
-        IsDarkMode = !IsDarkMode;
-        StateHasChanged(); // Uppdaterar UI
-    }
-}
-
-
-
-
-
-
-
+<!-- Footer med mörk bakgrund -->
+<footer class="footer-dark py-4 mt-4">
+    <div class="container text-center">
+        <div class="d-flex justify-content-center mb-3">
+            <a href="https://github.com/MarcusL-O" target="_blank" class="text-white mx-2 footer-icon">
+                <img src="images/Github.png" alt="Github" width="40" />
+            </a>
+            <a href="mailto:marcus.lisolivebring@gmail.com" class="mx-2 footer-icon">
+                <img src="images/Email.png" alt="E-post" width="40">
+            </a>
+            <a href="https://www.linkedin.com/in/marcus-lis-olivebring-2ab0a3223/" target="_blank" class="text-white mx-2 footer-icon">
+                <img src="images/LinkedIn.png" alt="LinkedIn" width="40" />
+            </a>
+        </div>
+        <p class="small text-center">
+            &copy; C 2025 All Right Reserved
+        </p>
+    </div>
+</footer>

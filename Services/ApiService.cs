@@ -9,139 +9,178 @@ namespace labb3_Blazor.Services
     public class ApiService
     {
         private readonly HttpClient _httpClient;
-        public ApiService (HttpClient httpClient)
+        public ApiService(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
 
-
-        //-------Teknologier---------
-
-
-        //Hämta alla tekonoliger
+        //------- Teknologier ---------
+        // Hämta alla teknologier
         public async Task<List<Technology>> GetTechnologiesAsync()
         {
             var tech = await _httpClient.GetFromJsonAsync<List<Technology>>("/api/technologies");
-
             if (tech == null)
             {
-                //Hanterar null 
                 return new List<Technology>();
             }
             return tech;
         }
 
-        //Skapa
+        // Skapa en ny teknologi
         public async Task<Technology> AddTechnologyAsync(Technology tech)
         {
-            //Skickar ett Post-anrop
             var response = await _httpClient.PostAsJsonAsync("api/technologies", tech);
-
-            //Om godkänt koden går vidare, annars kastas ett fel med statuskod
             response.EnsureSuccessStatusCode();
-
-            //Läser och retunerar svar från api
-            var createdTech =  await response.Content.ReadFromJsonAsync<Technology>();
-
+            var createdTech = await response.Content.ReadFromJsonAsync<Technology>();
             if (createdTech == null)
             {
-                throw new Exception("The Technology could not be created ");
+                throw new Exception("The Technology could not be created");
             }
             return createdTech;
         }
 
-        //Get by id 
+        // Hämta teknologi via id
         public async Task<Technology> GetTechnologyByIdAsync(int id)
         {
             var tech = await _httpClient.GetFromJsonAsync<Technology>($"/api/technologies/{id}");
-            if ( tech == null)
+            if (tech == null)
             {
                 throw new Exception($"Technology with id {id} was not found");
             }
             return tech;
         }
 
-        //Update
-        public async Task<Technology> UpdateTechnologyAsync (Technology tech)
+        // Uppdatera en teknologi
+        public async Task<Technology> UpdateTechnologyAsync(Technology tech)
         {
             var response = await _httpClient.PutAsJsonAsync($"api/technologies/{tech.Id}", tech);
             response.EnsureSuccessStatusCode();
-
-            var updatedTech =  await response.Content.ReadFromJsonAsync<Technology>();
-
-            if ( updatedTech == null)
+            var updatedTech = await response.Content.ReadFromJsonAsync<Technology>();
+            if (updatedTech == null)
             {
                 throw new Exception("Technology could not be updated");
             }
             return updatedTech;
         }
 
-        //Delete
+        // Ta bort en teknologi
         public async Task DeleteTechnologyAsync(int Id)
         {
             var response = await _httpClient.DeleteAsync($"api/technologies/{Id}");
             response.EnsureSuccessStatusCode();
         }
 
-        //-------Projekt---------
+        //------- Certificates ---------
 
-        // Hämta alla projekt
-        public async Task<List<Projects>> GetProjectsAsync()
+        // Hämta alla certifikat
+        public async Task<List<Certificate>> GetCertificatesAsync()
         {
-            var tech = await _httpClient.GetFromJsonAsync<List<Projects>>("/api/projects");
-
-            if (tech == null )
+            var certs = await _httpClient.GetFromJsonAsync<List<Certificate>>("/api/certificates");
+            if (certs == null)
             {
-                return new List<Projects>();
+                return new List<Certificate>();
             }
-            return tech;
+            return certs;
         }
 
-        //Skapa
-        public async Task<Projects> AddProjectAsync (Projects newProject)
+        // Skapa ett nytt certifikat
+        public async Task<Certificate> AddCertificateAsync(Certificate cert)
         {
-            var response = await _httpClient.PostAsJsonAsync<Projects>("/api/projects", newProject);
-
+            var response = await _httpClient.PostAsJsonAsync("/api/certificates", cert);
             response.EnsureSuccessStatusCode();
-
-            var createdProject = await response.Content.ReadFromJsonAsync<Projects>();
-
-            if (createdProject == null)
+            var createdCert = await response.Content.ReadFromJsonAsync<Certificate>();
+            if (createdCert == null)
             {
-                throw new Exception("The Project could not be created");
+                throw new Exception("The Certificate could not be created");
             }
-
-            return createdProject;
+            return createdCert;
         }
 
-        //Get by id
-        public async Task<Projects> GetProjectByIdAsync(int id)
+        // Hämta ett certifikat via id
+        public async Task<Certificate> GetCertificateByIdAsync(int id)
         {
-            var project = await _httpClient.GetFromJsonAsync<Projects>($"/api/projects/{id}");
-            if (project == null )
+            var cert = await _httpClient.GetFromJsonAsync<Certificate>($"/api/certificates/{id}");
+            if (cert == null)
             {
-                throw new Exception($"The project with id {id} was not found");
+                throw new Exception($"Certificate with id {id} was not found");
             }
-            return project;
+            return cert;
         }
 
-        //Update
-        public async Task<Projects> UpdateProjectAsync(Projects project)
+        // Uppdatera ett certifikat
+        public async Task<Certificate> UpdateCertificateAsync(Certificate cert)
         {
-            var response = await _httpClient.PutAsJsonAsync<Projects>($"/api/projects/{project.Id}", project);
-            var updatedProject = await response.Content.ReadFromJsonAsync<Projects>();
-
-            if(updatedProject == null)
+            var response = await _httpClient.PutAsJsonAsync($"/api/certificates/{cert.Id}", cert);
+            response.EnsureSuccessStatusCode();
+            var updatedCert = await response.Content.ReadFromJsonAsync<Certificate>();
+            if (updatedCert == null)
             {
-                throw new Exception("The project could not be updated");
+                throw new Exception("Certificate could not be updated");
             }
-            return updatedProject;
+            return updatedCert;
         }
 
-        //Delete
-        public async Task DeleteProjectsAsync(int id)
+        // Ta bort ett certifikat
+        public async Task DeleteCertificateAsync(int id)
         {
-            var response = await _httpClient.DeleteAsync($"/api/projects/{id}");
+            var response = await _httpClient.DeleteAsync($"/api/certificates/{id}");
+            response.EnsureSuccessStatusCode();
+        }
+
+        //------- Experiences ---------
+
+        // Hämta alla erfarenheter
+        public async Task<List<Experience>> GetExperiencesAsync()
+        {
+            var exps = await _httpClient.GetFromJsonAsync<List<Experience>>("/api/experiences");
+            if (exps == null)
+            {
+                return new List<Experience>();
+            }
+            return exps;
+        }
+
+        // Skapa en ny erfarenhet
+        public async Task<Experience> AddExperienceAsync(Experience exp)
+        {
+            var response = await _httpClient.PostAsJsonAsync("/api/experiences", exp);
+            response.EnsureSuccessStatusCode();
+            var createdExp = await response.Content.ReadFromJsonAsync<Experience>();
+            if (createdExp == null)
+            {
+                throw new Exception("The Experience could not be created");
+            }
+            return createdExp;
+        }
+
+        // Hämta en erfarenhet via id
+        public async Task<Experience> GetExperienceByIdAsync(int id)
+        {
+            var exp = await _httpClient.GetFromJsonAsync<Experience>($"/api/experiences/{id}");
+            if (exp == null)
+            {
+                throw new Exception($"Experience with id {id} was not found");
+            }
+            return exp;
+        }
+
+        // Uppdatera en erfarenhet
+        public async Task<Experience> UpdateExperienceAsync(Experience exp)
+        {
+            var response = await _httpClient.PutAsJsonAsync($"/api/experiences/{exp.Id}", exp);
+            response.EnsureSuccessStatusCode();
+            var updatedExp = await response.Content.ReadFromJsonAsync<Experience>();
+            if (updatedExp == null)
+            {
+                throw new Exception("Experience could not be updated");
+            }
+            return updatedExp;
+        }
+
+        // Ta bort en erfarenhet
+        public async Task DeleteExperienceAsync(int id)
+        {
+            var response = await _httpClient.DeleteAsync($"/api/experiences/{id}");
             response.EnsureSuccessStatusCode();
         }
     }

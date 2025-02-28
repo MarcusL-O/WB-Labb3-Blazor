@@ -1,12 +1,56 @@
 ﻿@page "/erfarenheter"
+@using labb3_Blazor.Models
+@using labb3_Blazor.Services
+@inject ApiService apiservice
 
-<div class="mt-4">
-    <h2 class="text-left">Erfarenheter</h2>
-    <!-- Företagsblocket med extra marginal -->
-    <div class="mt-3 border p-3 rounded text-center" style="max-width: 500px; margin-left: 0;">
-        <img src="images/Didup.jpg" alt="Företag" class="img-fluid mb-2" style="width:50px; height:50px;" />
-        <h4 class="mb-1">Didup</h4>
-        <p class="mb-1">LIA</p>
-        <small>2025</small>
+<div class="container mt-4">
+    <h2 class="text-left mb-4">Erfarenheter</h2>
+    <div class="row">
+        @foreach (var exp in experiences)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <img src="@exp.ImageUrl" alt="@exp.Company" class="img-fluid mb-3" style="max-height: 100px;" />
+                        <h5 class="card-title">@exp.Company</h5>
+                        <p class="card-text">@exp.Role</p>
+                        <p class="card-text"><small class="text-muted">@exp.Date</small></p>
+                    </div>
+                </div>
+            </div>
+        }
     </div>
 </div>
+
+@code {
+    private List<Experience> experiences = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        experiences = await apiservice.GetExperiencesAsync();
+
+        // Om API:et inte returnerar några erfarenheter, lägg in exempeldata
+        if (experiences == null || experiences.Count == 0)
+        {
+            experiences = new List<Experience>
+            {
+                new Experience
+                {
+                    Company = "Didup",
+                    Role = "LIA",
+                    Date = "2025",
+                    ImageUrl = "images/Didup.jpg"
+                },
+                new Experience
+                {
+                    Company = "ExampleCorp",
+                    Role = "Intern",
+                    Date = "2024",
+                    ImageUrl = "images/ExampleCorp.jpg"
+                }
+            };
+        }
+    }
+}
+
+

@@ -3,7 +3,7 @@
 @page "/"
 @inject ApiService apiservice
 
-<!-- Profil-->
+<!-- Profil -->
 <div class="text-center">
     <link href="app.css" rel="stylesheet" />
     <img src="Images/Profilbild.jpg" alt="Profilbild" class="rounded-circle border border-dark mb-3" style="width: 200px; height: 200px;">
@@ -13,11 +13,10 @@
     </div>
 </div>
 
-<!-- Om mig -->
-<div class="mt-4">
+<!-- Om mig med border och anpassad bakgrund -->
+<div class="about-me mt-4">
     <h2 class="text-left">Om mig</h2>
     <p class="lead text-left">
-        
         Jag har alltid gillat att förstå hur saker fungerar och lösa problem på ett logiskt sätt. Det var så jag drogs in i IT-världen. Jag trivs bäst när jag får arbeta praktiskt, optimera lösningar och skapa något som faktiskt gör skillnad.
         <br /><br />
         Teknik utvecklas snabbt, och för mig handlar det inte bara om att hänga med – utan om att aktivt bidra och utvecklas i takt med den. Jag gillar att testa nya idéer, hitta smartare sätt att göra saker på och samarbeta med andra för att lösa utmaningar.
@@ -45,26 +44,6 @@
         }
     </div>
 </div>
-
-<!-- Footer -->
-<footer class="bg-dark text-white py-4 mt-4">
-    <div class="container text-center">
-        <div class="d-flex justify-content-center mb-3">
-            <a href="https://github.com/MarcusL-O" target="_blank" class="text-white mx-2">
-                <img src="images/Github.png" alt="Github" width="40" />
-            </a>
-            <a href="mailto:marcus.lisolivebring@gmail.com" class="mx-2">
-                <img src="images/Email.png" alt="E-post" width="40">
-            </a>
-            <a href="https://www.linkedin.com/in/marcus-lis-olivebring-2ab0a3223/" target="_blank" class="text-white mx-2">
-                <img src="images/LinkedIn.png" alt="LinkedIn" width="40" />
-            </a>
-        </div>
-        <p class="small text-center">
-            &copy; C 2025 All Right Reserved
-        </p>
-    </div>
-</footer>
 
 @code {
     private List<Technology> technologies;
