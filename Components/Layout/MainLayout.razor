@@ -1,23 +1,29 @@
 ﻿@inherits LayoutComponentBase
 
 <div class="@ContainerClass">
-    <header class="top-row px-4">
-        <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        <button class="mode-toggle" @onclick="ToggleNightMode">
-            @if (IsDarkMode)
-            {
-                <i class="bi bi-moon-fill"></i>
-            }
-            else
-            {
-                <i class="bi bi-sun-fill"></i>
-            }
-        </button>
-    </header>
+    <div class="container p-4" style="max-width: 800px;">
+        <!-- Översta navigationsraden -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <!-- Vänster: Home-knapp -->
+            <NavLink href="/" class="custom-navlink">Home</NavLink>
 
-    <main class="content px-4">
-        @Body
-    </main>
+            <!-- Höger: Certifikat, Erfarenheter & Light/Dark Mode-knappar -->
+            <div>
+                <NavLink href="/certifikat" class="custom-navlink">Certifikat</NavLink>
+                <NavLink href="/erfarenheter" class="custom-navlink">Erfarenheter</NavLink>
+
+                <!-- Dark/Light Mode-knapp -->
+                <button class="mode-toggle btn btn-link" @onclick="ToggleNightMode">
+                    <img src="@ModeImageUrl" alt="Toggle mode" style="width:30px; height:30px;" />
+                </button>
+            </div>
+        </div>
+
+        <!-- Rendera sidans innehåll -->
+        <main class="content">
+            @Body
+        </main>
+    </div>
 </div>
 
 <div id="blazor-error-ui">
@@ -28,20 +34,20 @@
 
 @code {
     private bool IsDarkMode = false;
-
+    
     private string ContainerClass => IsDarkMode ? "dark-mode" : "light-mode";
+    private string ModeImageUrl => IsDarkMode ? "images/DarkMode.png" : "images/LightMode.png";
 
     private void ToggleNightMode()
     {
         IsDarkMode = !IsDarkMode;
+        StateHasChanged(); // Uppdaterar UI
     }
 }
 
 
 
-<div id="blazor-error-ui">
-    An unhandled error has occurred.
-    <a href="" class="reload">Reload</a>
-    <a class="dismiss">🗙</a>
-</div>
+
+
+
 
