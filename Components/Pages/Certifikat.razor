@@ -1,33 +1,62 @@
 ﻿@page "/certifikat"
+@using labb3_Blazor.Models;
+@inject HttpClient Http
 
 <div class="container mt-4">
-    <h2 class="text-left mb-4">Certifikat</h2>
-    <div class="row">
-        <!-- Exempel på ett klart certifikat: AZ-900 -->
-        <div class="col-md-4 mb-3">
-            <div class="card certificate-card">
-                <div class="card-body text-center">
-                    <!-- Bilden är länkad -->
-                    <a href="https://learn.microsoft.com/api/credentials/share/en-us/MarcusLisOlivebring-4473/FAC4988FCC2323A?sharingId=EE70EA8119EE143" target="_blank">
-                        <img src="images/Azure.png" alt="AZ-900" class="img-fluid certificate-img mb-3" style="max-height: 100px;" />
-                    </a>
-                    <h5 class="card-title">AZ-900</h5>
-                    <p class="card-text">Done</p>
-                    <p class="card-text"><small class="text-muted">2025-01-15</small></p>
+    <h2 class="text-center mb-4">Certifikat</h2>
+    <div class="row justify-content-center">
+        @if (certificates == null)
+        {
+            <p>Laddar certifikat...</p>
+        }
+        else if (!certificates.Any())
+        {
+            <p>Inga certifikat att visa.</p>
+        }
+        else
+        {
+            @foreach (var cert in certificates)
+            {
+                <div class="col-md-4 mb-3 d-flex align-items-stretch">
+                    <div class="card certificate-card w-100">
+                        <div class="card-body text-center">
+                            @if (!string.IsNullOrEmpty(cert.CredentialUrl))
+                            {
+                                <a href="@cert.CredentialUrl" target="_blank">
+                                    <img src="@cert.ImageUrl" alt="@cert.Title" class="img-fluid certificate-img mb-3" style="max-height: 100px;" />
+                                </a>
+                            }
+                            else
+                            {
+                                <img src="@cert.ImageUrl" alt="@cert.Title" class="img-fluid certificate-img mb-3" style="max-height: 100px;" />
+                            }
+                            <h5 class="card-title">@cert.Title</h5>
+                            <p class="card-text">@cert.Status</p>
+                            @if (cert.Status == "Done" && cert.DateAchieved.HasValue)
+                            {
+                                <p class="card-text"><small class="text-muted">@cert.DateAchieved.Value.ToString("yyyy-MM-dd")</small></p>
+                            }
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <!-- Exempel på ett pågående certifikat: AZ-104 -->
-        <div class="col-md-4 mb-3">
-            <div class="card certificate-card">
-                <div class="card-body text-center">
-                    <!-- Ingen länk om certifikatet är pågående, men du kan lägga till en länk om det behövs -->
-                    <img src="images/Azure.png" alt="AZ-104" class="img-fluid certificate-img mb-3" style="max-height: 100px;" />
-                    <h5 class="card-title">AZ-104</h5>
-                    <p class="card-text">Pågående</p>
-                    <!-- Datum visas inte om certifikatet inte är klart -->
-                </div>
-            </div>
-        </div>
+            }
+        }
     </div>
 </div>
+
+@code {
+    private List<Certificate> certificates;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            certificates = await Http.GetFromJsonAsync<List<Certificate>>("/api/certificates");
+        }
+        catch (Exception ex)
+        {
+            // Logga felet eller visa ett meddelande i UI
+            Console.WriteLine($"Fel vid hämtning av certifikat: {ex.Message}");
+        }
+    }
+}

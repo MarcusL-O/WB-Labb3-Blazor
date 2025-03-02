@@ -4,53 +4,40 @@
 @inject ApiService apiservice
 
 <div class="container mt-4">
-    <h2 class="text-left mb-4">Erfarenheter</h2>
-    <div class="row">
-        @foreach (var exp in experiences)
+    <h2 class="text-center mb-4">Erfarenheter</h2>
+    <div class="row justify-content-center">
+        @if (experiences == null)
         {
-            <div class="col-md-4 mb-3">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <img src="@exp.ImageUrl" alt="@exp.Company" class="img-fluid mb-3" style="max-height: 100px;" />
-                        <h5 class="card-title">@exp.Company</h5>
-                        <p class="card-text">@exp.Role</p>
-                        <p class="card-text"><small class="text-muted">@exp.Date</small></p>
+            <p>Laddar erfarenheter...</p>
+        }
+        else if (experiences.Count == 0)
+        {
+            <p>Inga erfarenheter att visa.</p>
+        }
+        else
+        {
+            @foreach (var exp in experiences)
+            {
+                <div class="col-md-4 mb-3 d-flex align-items-stretch">
+                    <div class="card w-100">
+                        <div class="card-body text-center">
+                            <img src="@exp.ImageUrl" alt="@exp.Company" class="img-fluid mb-3" style="max-height: 100px;" />
+                            <h5 class="card-title">@exp.Company</h5>
+                            <p class="card-text">@exp.Role</p>
+                            <p class="card-text"><small class="text-muted">@exp.Date</small></p>
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
         }
     </div>
 </div>
 
 @code {
-    private List<Experience> experiences = new();
+    private List<Experience> experiences;
 
     protected override async Task OnInitializedAsync()
     {
         experiences = await apiservice.GetExperiencesAsync();
-
-        // Om API:et inte returnerar några erfarenheter, lägg in exempeldata
-        if (experiences == null || experiences.Count == 0)
-        {
-            experiences = new List<Experience>
-            {
-                new Experience
-                {
-                    Company = "Didup",
-                    Role = "LIA",
-                    Date = "2025",
-                    ImageUrl = "images/Didup.jpg"
-                },
-                new Experience
-                {
-                    Company = "ExampleCorp",
-                    Role = "Intern",
-                    Date = "2024",
-                    ImageUrl = "images/ExampleCorp.jpg"
-                }
-            };
-        }
     }
 }
-
-

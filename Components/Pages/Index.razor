@@ -5,30 +5,38 @@
 
 <!-- Profil -->
 <div class="text-center">
-    <link href="app.css" rel="stylesheet" />
-    <img src="Images/Profilbild.jpg" alt="Profilbild" class="rounded-circle border border-dark mb-3" style="width: 200px; height: 200px;">
+    <link href="/app.css" rel="stylesheet" />
+    <img src="Images/Profilbild.jpg" alt="Profilbild" class="rounded-circle border border-dark mb-3" style="width: 250px; height: 250px;">
     <h1>Marcus Lis-Olivebring</h1>
-    <div class="d-inline-block border p-2 rounded" style="font-size: 1.1rem;">
-        Devops Engineer
+    <div class="d-inline-block border p-2 rounded" style="font-size: 1.1rem; background-color: #008f5a; color: #ffffff;">
+        DevOps Engineer
     </div>
 </div>
 
-<!-- Om mig med border och anpassad bakgrund -->
+
+<!--Om mig med border och anpassad bakgrund -->
 <div class="about-me mt-4">
     <h2 class="text-left">Om mig</h2>
+    <br /><br />
     <p class="lead text-left">
         Jag har alltid gillat att förstå hur saker fungerar och lösa problem på ett logiskt sätt. Det var så jag drogs in i IT-världen. Jag trivs bäst när jag får arbeta praktiskt, optimera lösningar och skapa något som faktiskt gör skillnad.
         <br /><br />
-        Teknik utvecklas snabbt, och för mig handlar det inte bara om att hänga med – utan om att aktivt bidra och utvecklas i takt med den. Jag gillar att testa nya idéer, hitta smartare sätt att göra saker på och samarbeta med andra för att lösa utmaningar.
+        Teknik utvecklas snabbt, och för mig handlar det inte bara om att hänga med, utan om att aktivt bidra och utvecklas i takt med den. Jag gillar att testa nya idéer, hitta smartare sätt att göra saker på och samarbeta med andra för att lösa utmaningar.
         <br /><br />
         Jag ser fram emot att fortsätta växa och hitta nya möjligheter inom IT.
     </p>
 </div>
 
+<!--Button-->
+<div class="d-flex justify-content-center my-4">
+    <button class="custom-navlink btn mx-2" onclick="window.location.href='/certifikat'">Certifikat</button>
+    <button class="custom-navlink btn mx-2" onclick="window.location.href='/erfarenheter'">Erfarenheter</button>
+</div>
+
 <!-- Vad jag har lärt mig -->
 <div class="mt-4">
     <h3 class="text-left">Vad jag har lärt mig</h3>
-    <div class="row">
+    <div class="row d-flex justify-content-center flex-wrap">
         @if (technologies == null)
         {
             <p>Laddar teknologier...</p>
@@ -37,13 +45,14 @@
         {
             @foreach (var tech in technologies)
             {
-                <div class="col-3 col-md-2 text-left mb-3">
-                    <img src="@tech.ImageUrl" alt="@tech.Name" class="img-fluid" style="max-height:50px;">
+                <div class="col-2 text-center mb-2">
+                    <img src="@tech.ImageUrl" alt="@tech.Name" class="img-fluid tech-img mx-1 my-1">
                 </div>
             }
         }
     </div>
 </div>
+
 
 @code {
     private List<Technology> technologies;
