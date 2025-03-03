@@ -1,48 +1,192 @@
 ﻿@page "/admin"
 @using labb3_Blazor.Models
 @using labb3_Blazor.Services
-<!-- För att anropa api -->
-@inject ApiService apiService 
+@inject ApiService apiService
 
+<h2>Admin</h2>
 
+<!-- Teknologi -->
+<section class="mb-5">
+    <h3>Lägg till Teknologi</h3>
+    <EditForm Model="newTechnology" OnValidSubmit="HandleValidSubmitTechnology" FormName="techForm">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
 
-<h3>Lägg till Teknologier</h3>
+        <div class="mb-3">
+            <label class="form-label">Namn</label>
+            <InputText class="form-control" @bind-Value="newTechnology.Name" />
+        </div>
 
+        <div class="mb-3">
+            <label class="form-label">År av Erfarenhet</label>
+            <InputNumber class="form-control" @bind-Value="newTechnology.YearsOfExperience" />
+        </div>
 
-<EditForm Model="newTech" OnValidSubmit="HandleValidSubmit">
-    <!--Validerar-->
-    <DataAnnotationsValidator />
-    <ValidationSummary />
+        <div class="mb-3">
+            <label class="form-label">Kompetensnivå</label>
+            <InputText class="form-control" @bind-Value="newTechnology.SkillLevel" />
+        </div>
 
-    <div class=" mb-3">
-        <label class="form-label">Name</label>
-        <InputText class="form-control" @bind-Value="newTech.Name" />
-    </div>
+        <div class="mb-3">
+            <label class="form-label">Bild URL</label>
+            <InputText class="form-control" @bind-Value="newTechnology.ImageUrl" />
+        </div>
 
-    <div class="mb-3">
-        <label class="form-label">Years Of Experience</label>
-       <InputNumber class="form-control" @bind-Value="newTech.YearsOfExperience" />
-    </div>
+        <button class="btn btn-primary" type="submit">Lägg till Teknologi</button>
+    </EditForm>
+    @if (!string.IsNullOrEmpty(techMessage))
+    {
+        <div class="mt-2 alert alert-info">@techMessage</div>
+    }
+</section>
 
-    <div class="mb-3">
-        <label class="form-label">SkillLevel</label>
-        <InputText class="form-control" @bind-Value="newTech.SkillLevel" />
-    </div>
-    <button class="btn btn-primary", type="submit">Add</button>
+<!-- Certifikat -->
+<section class="mb-5">
+    <h3>Lägg till Certifikat</h3>
+    <EditForm Model="newCertificate" OnValidSubmit="HandleValidSubmitCertificate" FormName="certForm">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
 
-</EditForm>
+        <div class="mb-3">
+            <label class="form-label">Titel</label>
+            <InputText class="form-control" @bind-Value="newCertificate.Title" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Status</label>
+            <InputText class="form-control" @bind-Value="newCertificate.Status" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Credential URL</label>
+            <InputText class="form-control" @bind-Value="newCertificate.CredentialUrl" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Bild URL</label>
+            <InputText class="form-control" @bind-Value="newCertificate.ImageUrl" />
+        </div>
+
+        <button class="btn btn-primary" type="submit">Lägg till Certifikat</button>
+    </EditForm>
+    @if (!string.IsNullOrEmpty(certMessage))
+    {
+        <div class="mt-2 alert alert-info">@certMessage</div>
+    }
+</section>
+
+<!-- Erfarenhet -->
+<section class="mb-5">
+    <h3>Lägg till Erfarenhet</h3>
+    <EditForm Model="newExperience" OnValidSubmit="HandleValidSubmitExperience" FormName="expForm">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="mb-3">
+            <label class="form-label">Företag</label>
+            <InputText class="form-control" @bind-Value="newExperience.Company" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Roll</label>
+            <InputText class="form-control" @bind-Value="newExperience.Role" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Datum</label>
+            <InputText class="form-control" @bind-Value="newExperience.Date" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Bild URL</label>
+            <InputText class="form-control" @bind-Value="newExperience.ImageUrl" />
+        </div>
+
+        <button class="btn btn-primary" type="submit">Lägg till Erfarenhet</button>
+    </EditForm>
+    @if (!string.IsNullOrEmpty(expMessage))
+    {
+        <div class="mt-2 alert alert-info">@expMessage</div>
+    }
+</section>
+
 
 
 @code {
-    public Technology newTech = new Technology();
+    // Instanser 
+    public Technology newTechnology { get; set; } = new Technology() { Name = "", SkillLevel = "", ImageUrl = "" };
+    public Certificate newCertificate { get; set; } = new Certificate() { Title = "", Status = "", CredentialUrl = "", ImageUrl = "" };
+    public Experience newExperience { get; set; } = new Experience() { Company = "", Role = "", Date = "", ImageUrl = "" };
 
-    public async Task HandleValidSubmit()
+    // Meddelanden 
+    public string techMessage { get; set; } = "";
+    public string certMessage { get; set; } = "";
+    public string expMessage { get; set; } = "";
+
+    // Hantera inlämning av Teknologi
+    public async Task HandleValidSubmitTechnology()
     {
-        // Anropar API genom metod från ApiService
-        await apiService.AddTechnologyAsync(newTech);
-
-        //Tömmer formuläret
-        newTech = new Technology();
+        try
+        {
+            var createdTech = await apiService.AddTechnologyAsync(newTechnology);
+            if (createdTech != null)
+            {
+                techMessage = "Teknologi tillagd!";
+                // Återställ formuläret 
+                newTechnology = new Technology() { Name = "", SkillLevel = "", ImageUrl = "" };
+            }
+            else
+            {
+                techMessage = "Fel vid tillägg av teknologi.";
+            }
+        }
+        catch (Exception ex)
+        {
+            techMessage = $"Exception: {ex.Message}";
+        }
     }
 
+    // Hantera inlämning av Certifikat
+    public async Task HandleValidSubmitCertificate()
+    {
+        try
+        {
+            var createdCert = await apiService.AddCertificateAsync(newCertificate);
+            if (createdCert != null)
+            {
+                certMessage = "Certifikat tillagt!";
+                newCertificate = new Certificate() { Title = "", Status = "", CredentialUrl = "", ImageUrl = "" };
+            }
+            else
+            {
+                certMessage = "Fel vid tillägg av certifikat.";
+            }
+        }
+        catch (Exception ex)
+        {
+            certMessage = $"Exception: {ex.Message}";
+        }
+    }
+
+    // Hantera inlämning av Erfarenhet
+    public async Task HandleValidSubmitExperience()
+    {
+        try
+        {
+            var createdExp = await apiService.AddExperienceAsync(newExperience);
+            if (createdExp != null)
+            {
+                expMessage = "Erfarenhet tillagd!";
+                newExperience = new Experience() { Company = "", Role = "", Date = "", ImageUrl = "" };
+            }
+            else
+            {
+                expMessage = "Fel vid tillägg av erfarenhet.";
+            }
+        }
+        catch (Exception ex)
+        {
+            expMessage = $"Exception: {ex.Message}";
+        }
+    }
 }

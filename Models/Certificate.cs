@@ -3,10 +3,10 @@
     public class Certificate
     {
         public int Id { get; set; }
-        public string Title { get; set; }        
-        public string ImageUrl { get; set; }        
-        public string Status { get; set; }           
-        public DateTime? DateAchieved { get; set; } 
-        public string CredentialUrl { get; set; }
+        public required string Title { get; set; }
+        public required string ImageUrl { get; set; }
+        public required string Status { get; set; }
+        public DateTime? DateAchieved { get; set; }
+        public required string CredentialUrl { get; set; }
     }
 }
