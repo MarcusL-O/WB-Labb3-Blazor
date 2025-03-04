@@ -13,23 +13,23 @@
         <ValidationSummary />
 
         <div class="mb-3">
-            <label class="form-label">Namn</label>
-            <InputText class="form-control" @bind-Value="newTechnology.Name" />
+            <label for="techName" class="form-label">Namn</label>
+            <InputText id="techName" class="form-control" @bind-Value="newTechnology.Name" placeholder="Ange namn" />
         </div>
 
         <div class="mb-3">
-            <label class="form-label">År av Erfarenhet</label>
-            <InputNumber class="form-control" @bind-Value="newTechnology.YearsOfExperience" />
+            <label for="techYears" class="form-label">År av Erfarenhet</label>
+            <InputNumber id="techYears" class="form-control" @bind-Value="newTechnology.YearsOfExperience" placeholder="Ange antal år" />
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Kompetensnivå</label>
-            <InputText class="form-control" @bind-Value="newTechnology.SkillLevel" />
+            <label for="techSkill" class="form-label">Kompetensnivå</label>
+            <InputText id="techSkill" class="form-control" @bind-Value="newTechnology.SkillLevel" placeholder="Ange kompetensnivå" />
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Bild URL</label>
-            <InputText class="form-control" @bind-Value="newTechnology.ImageUrl" />
+            <label for="techImage" class="form-label">Bild URL</label>
+            <InputText id="techImage" class="form-control" @bind-Value="newTechnology.ImageUrl" placeholder="Ange bild URL" />
         </div>
 
         <button class="btn btn-primary" type="submit">Lägg till Teknologi</button>
@@ -48,23 +48,23 @@
         <ValidationSummary />
 
         <div class="mb-3">
-            <label class="form-label">Titel</label>
-            <InputText class="form-control" @bind-Value="newCertificate.Title" />
+            <label for="certTitle" class="form-label">Titel</label>
+            <InputText id="certTitle" class="form-control" @bind-Value="newCertificate.Title" placeholder="Ange titel" />
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Status</label>
-            <InputText class="form-control" @bind-Value="newCertificate.Status" />
+            <label for="certStatus" class="form-label">Status</label>
+            <InputText id="certStatus" class="form-control" @bind-Value="newCertificate.Status" placeholder="Ange status" />
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Credential URL</label>
-            <InputText class="form-control" @bind-Value="newCertificate.CredentialUrl" />
+            <label for="certCredential" class="form-label">Credential URL</label>
+            <InputText id="certCredential" class="form-control" @bind-Value="newCertificate.CredentialUrl" placeholder="Ange credential URL" />
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Bild URL</label>
-            <InputText class="form-control" @bind-Value="newCertificate.ImageUrl" />
+            <label for="certImage" class="form-label">Bild URL</label>
+            <InputText id="certImage" class="form-control" @bind-Value="newCertificate.ImageUrl" placeholder="Ange bild URL" />
         </div>
 
         <button class="btn btn-primary" type="submit">Lägg till Certifikat</button>
@@ -83,23 +83,23 @@
         <ValidationSummary />
 
         <div class="mb-3">
-            <label class="form-label">Företag</label>
-            <InputText class="form-control" @bind-Value="newExperience.Company" />
+            <label for="expCompany" class="form-label">Företag</label>
+            <InputText id="expCompany" class="form-control" @bind-Value="newExperience.Company" placeholder="Ange företag" />
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Roll</label>
-            <InputText class="form-control" @bind-Value="newExperience.Role" />
+            <label for="expRole" class="form-label">Roll</label>
+            <InputText id="expRole" class="form-control" @bind-Value="newExperience.Role" placeholder="Ange roll" />
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Datum</label>
-            <InputText class="form-control" @bind-Value="newExperience.Date" />
+            <label for="expDate" class="form-label">Datum</label>
+            <InputText id="expDate" class="form-control" @bind-Value="newExperience.Date" placeholder="Ange datum" />
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Bild URL</label>
-            <InputText class="form-control" @bind-Value="newExperience.ImageUrl" />
+            <label for="expImage" class="form-label">Bild URL</label>
+            <InputText id="expImage" class="form-control" @bind-Value="newExperience.ImageUrl" placeholder="Ange bild URL" />
         </div>
 
         <button class="btn btn-primary" type="submit">Lägg till Erfarenhet</button>
@@ -110,15 +110,13 @@
     }
 </section>
 
-
-
 @code {
-    // Instanser 
-    public Technology newTechnology { get; set; } = new Technology() { Name = "", SkillLevel = "", ImageUrl = "" };
-    public Certificate newCertificate { get; set; } = new Certificate() { Title = "", Status = "", CredentialUrl = "", ImageUrl = "" };
-    public Experience newExperience { get; set; } = new Experience() { Company = "", Role = "", Date = "", ImageUrl = "" };
+    // Instanser
+    public Technology newTechnology { get; set; } = new Technology();
+    public Certificate newCertificate { get; set; } = new Certificate();
+    public Experience newExperience { get; set; } = new Experience();
 
-    // Meddelanden 
+    // Meddelanden
     public string techMessage { get; set; } = "";
     public string certMessage { get; set; } = "";
     public string expMessage { get; set; } = "";
@@ -126,67 +124,45 @@
     // Hantera inlämning av Teknologi
     public async Task HandleValidSubmitTechnology()
     {
-        try
+        var createdTech = await apiService.AddTechnologyAsync(newTechnology);
+        if (createdTech != null)
         {
-            var createdTech = await apiService.AddTechnologyAsync(newTechnology);
-            if (createdTech != null)
-            {
-                techMessage = "Teknologi tillagd!";
-                // Återställ formuläret 
-                newTechnology = new Technology() { Name = "", SkillLevel = "", ImageUrl = "" };
-            }
-            else
-            {
-                techMessage = "Fel vid tillägg av teknologi.";
-            }
+            techMessage = "Teknologi tillagd!";
+            newTechnology = new Technology();
         }
-        catch (Exception ex)
+        else
         {
-            techMessage = $"Exception: {ex.Message}";
+            techMessage = "Fel vid tillägg av teknologi.";
         }
     }
 
     // Hantera inlämning av Certifikat
     public async Task HandleValidSubmitCertificate()
     {
-        try
+        var createdCert = await apiService.AddCertificateAsync(newCertificate);
+        if (createdCert != null)
         {
-            var createdCert = await apiService.AddCertificateAsync(newCertificate);
-            if (createdCert != null)
-            {
-                certMessage = "Certifikat tillagt!";
-                newCertificate = new Certificate() { Title = "", Status = "", CredentialUrl = "", ImageUrl = "" };
-            }
-            else
-            {
-                certMessage = "Fel vid tillägg av certifikat.";
-            }
+            certMessage = "Certifikat tillagt!";
+            newCertificate = new Certificate() { Title = "", Status = "", CredentialUrl = "", ImageUrl = "" };
         }
-        catch (Exception ex)
+        else
         {
-            certMessage = $"Exception: {ex.Message}";
+            certMessage = "Fel vid tillägg av certifikat.";
         }
     }
 
     // Hantera inlämning av Erfarenhet
     public async Task HandleValidSubmitExperience()
     {
-        try
+        var createdExp = await apiService.AddExperienceAsync(newExperience);
+        if (createdExp != null)
         {
-            var createdExp = await apiService.AddExperienceAsync(newExperience);
-            if (createdExp != null)
-            {
-                expMessage = "Erfarenhet tillagd!";
-                newExperience = new Experience() { Company = "", Role = "", Date = "", ImageUrl = "" };
-            }
-            else
-            {
-                expMessage = "Fel vid tillägg av erfarenhet.";
-            }
+            expMessage = "Erfarenhet tillagd!";
+            newExperience = new Experience() { Company = "", Role = "", Date = "", ImageUrl = "" };
         }
-        catch (Exception ex)
+        else
         {
-            expMessage = $"Exception: {ex.Message}";
+            expMessage = "Fel vid tillägg av erfarenhet.";
         }
     }
 }
