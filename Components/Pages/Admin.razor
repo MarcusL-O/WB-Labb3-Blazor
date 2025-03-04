@@ -34,6 +34,9 @@
 
         <button class="btn btn-primary" type="submit">Lägg till Teknologi</button>
     </EditForm>
+
+   
+
     @if (!string.IsNullOrEmpty(techMessage))
     {
         <div class="mt-2 alert alert-info">@techMessage</div>
@@ -124,7 +127,9 @@
     // Hantera inlämning av Teknologi
     public async Task HandleValidSubmitTechnology()
     {
+        Console.WriteLine("Submit clicked(form)");
         var createdTech = await apiService.AddTechnologyAsync(newTechnology);
+       
         if (createdTech != null)
         {
             techMessage = "Teknologi tillagd!";
@@ -136,9 +141,11 @@
         }
     }
 
+
     // Hantera inlämning av Certifikat
     public async Task HandleValidSubmitCertificate()
     {
+        Console.WriteLine("Submit clicked");
         var createdCert = await apiService.AddCertificateAsync(newCertificate);
         if (createdCert != null)
         {
@@ -154,6 +161,7 @@
     // Hantera inlämning av Erfarenhet
     public async Task HandleValidSubmitExperience()
     {
+        Console.WriteLine("Submit clicked");
         var createdExp = await apiService.AddExperienceAsync(newExperience);
         if (createdExp != null)
         {
