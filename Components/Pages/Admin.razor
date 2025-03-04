@@ -1,135 +1,161 @@
 ﻿@page "/admin"
+@using System.ComponentModel.DataAnnotations
 @using labb3_Blazor.Models
 @using labb3_Blazor.Services
 @inject ApiService apiService
 
-<h2>Admin</h2>
+@using Microsoft.AspNetCore.Components.Forms
 
-<!-- Teknologi -->
-<section class="mb-5">
-    <h3>Lägg till Teknologi</h3>
-    <EditForm Model="newTechnology" OnValidSubmit="HandleValidSubmitTechnology" FormName="techForm">
+@if (!isAuthenticated)
+{
+    <EditForm Model="loginModel" OnValidSubmit="HandleLogin">
         <DataAnnotationsValidator />
         <ValidationSummary />
 
         <div class="mb-3">
-            <label for="techName" class="form-label">Namn</label>
-            <InputText id="techName" class="form-control" @bind-Value="newTechnology.Name" placeholder="Ange namn" />
+            <label class="form-label">Användarnamn</label>
+            <InputText class="form-control" @bind-value="loginModel.Username" placeholder="Ange användarnamn" />
         </div>
-
         <div class="mb-3">
-            <label for="techYears" class="form-label">År av Erfarenhet</label>
-            <InputNumber id="techYears" class="form-control" @bind-Value="newTechnology.YearsOfExperience" placeholder="Ange antal år" />
+            <label class="form-label">Lösenord</label>
+            <InputText class="form-control" @bind-value="loginModel.Password" type="password" placeholder="Ange lösenord" />
         </div>
-
-        <div class="mb-3">
-            <label for="techSkill" class="form-label">Kompetensnivå</label>
-            <InputText id="techSkill" class="form-control" @bind-Value="newTechnology.SkillLevel" placeholder="Ange kompetensnivå" />
-        </div>
-
-        <div class="mb-3">
-            <label for="techImage" class="form-label">Bild URL</label>
-            <InputText id="techImage" class="form-control" @bind-Value="newTechnology.ImageUrl" placeholder="Ange bild URL" />
-        </div>
-
-        <button class="btn btn-primary" type="submit">Lägg till Teknologi</button>
+        <button class="btn btn-primary" type="submit">Logga in</button>
+        @if (!string.IsNullOrEmpty(loginError))
+        {
+            <div class="mt-2 alert alert-danger">@loginError</div>
+        }
     </EditForm>
+}
+else
+{
+    <h2>Admin</h2>
+    <!-- Teknologi -->
+    <section class="mb-5">
+        <h3>Lägg till Teknologi</h3>
+        <EditForm Model="newTechnology" OnValidSubmit="HandleValidSubmitTechnology" FormName="techForm">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <div class="mb-3">
+                <label for="techName" class="form-label">Namn</label>
+                <InputText id="techName" class="form-control" @bind-value="newTechnology.Name" placeholder="Ange namn" />
+            </div>
+            <div class="mb-3">
+                <label for="techYears" class="form-label">År av Erfarenhet</label>
+                <InputNumber id="techYears" class="form-control" @bind-value="newTechnology.YearsOfExperience" placeholder="Ange antal år" />
+            </div>
+            <div class="mb-3">
+                <label for="techSkill" class="form-label">Kompetensnivå</label>
+                <InputText id="techSkill" class="form-control" @bind-value="newTechnology.SkillLevel" placeholder="Ange kompetensnivå" />
+            </div>
+            <div class="mb-3">
+                <label for="techImage" class="form-label">Bild URL</label>
+                <InputText id="techImage" class="form-control" @bind-value="newTechnology.ImageUrl" placeholder="Ange bild URL" />
+            </div>
+            <button class="btn btn-primary" type="submit">Lägg till Teknologi</button>
+        </EditForm>
+        @if (!string.IsNullOrEmpty(techMessage))
+        {
+            <div class="mt-2 alert alert-info">@techMessage</div>
+        }
+    </section>
 
-   
+    <!-- Certifikat -->
+    <section class="mb-5">
+        <h3>Lägg till Certifikat</h3>
+        <EditForm Model="newCertificate" OnValidSubmit="HandleValidSubmitCertificate" FormName="certForm">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <div class="mb-3">
+                <label for="certTitle" class="form-label">Titel</label>
+                <InputText id="certTitle" class="form-control" @bind-value="newCertificate.Title" placeholder="Ange titel" />
+            </div>
+            <div class="mb-3">
+                <label for="certStatus" class="form-label">Status</label>
+                <InputText id="certStatus" class="form-control" @bind-value="newCertificate.Status" placeholder="Ange status" />
+            </div>
+            <div class="mb-3">
+                <label for="certCredential" class="form-label">Credential URL</label>
+                <InputText id="certCredential" class="form-control" @bind-value="newCertificate.CredentialUrl" placeholder="Ange credential URL" />
+            </div>
+            <div class="mb-3">
+                <label for="certImage" class="form-label">Bild URL</label>
+                <InputText id="certImage" class="form-control" @bind-value="newCertificate.ImageUrl" placeholder="Ange bild URL" />
+            </div>
+            <button class="btn btn-primary" type="submit">Lägg till Certifikat</button>
+        </EditForm>
+        @if (!string.IsNullOrEmpty(certMessage))
+        {
+            <div class="mt-2 alert alert-info">@certMessage</div>
+        }
+    </section>
 
-    @if (!string.IsNullOrEmpty(techMessage))
-    {
-        <div class="mt-2 alert alert-info">@techMessage</div>
-    }
-</section>
-
-<!-- Certifikat -->
-<section class="mb-5">
-    <h3>Lägg till Certifikat</h3>
-    <EditForm Model="newCertificate" OnValidSubmit="HandleValidSubmitCertificate" FormName="certForm">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-
-        <div class="mb-3">
-            <label for="certTitle" class="form-label">Titel</label>
-            <InputText id="certTitle" class="form-control" @bind-Value="newCertificate.Title" placeholder="Ange titel" />
-        </div>
-
-        <div class="mb-3">
-            <label for="certStatus" class="form-label">Status</label>
-            <InputText id="certStatus" class="form-control" @bind-Value="newCertificate.Status" placeholder="Ange status" />
-        </div>
-
-        <div class="mb-3">
-            <label for="certCredential" class="form-label">Credential URL</label>
-            <InputText id="certCredential" class="form-control" @bind-Value="newCertificate.CredentialUrl" placeholder="Ange credential URL" />
-        </div>
-
-        <div class="mb-3">
-            <label for="certImage" class="form-label">Bild URL</label>
-            <InputText id="certImage" class="form-control" @bind-Value="newCertificate.ImageUrl" placeholder="Ange bild URL" />
-        </div>
-
-        <button class="btn btn-primary" type="submit">Lägg till Certifikat</button>
-    </EditForm>
-    @if (!string.IsNullOrEmpty(certMessage))
-    {
-        <div class="mt-2 alert alert-info">@certMessage</div>
-    }
-</section>
-
-<!-- Erfarenhet -->
-<section class="mb-5">
-    <h3>Lägg till Erfarenhet</h3>
-    <EditForm Model="newExperience" OnValidSubmit="HandleValidSubmitExperience" FormName="expForm">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-
-        <div class="mb-3">
-            <label for="expCompany" class="form-label">Företag</label>
-            <InputText id="expCompany" class="form-control" @bind-Value="newExperience.Company" placeholder="Ange företag" />
-        </div>
-
-        <div class="mb-3">
-            <label for="expRole" class="form-label">Roll</label>
-            <InputText id="expRole" class="form-control" @bind-Value="newExperience.Role" placeholder="Ange roll" />
-        </div>
-
-        <div class="mb-3">
-            <label for="expDate" class="form-label">Datum</label>
-            <InputText id="expDate" class="form-control" @bind-Value="newExperience.Date" placeholder="Ange datum" />
-        </div>
-
-        <div class="mb-3">
-            <label for="expImage" class="form-label">Bild URL</label>
-            <InputText id="expImage" class="form-control" @bind-Value="newExperience.ImageUrl" placeholder="Ange bild URL" />
-        </div>
-
-        <button class="btn btn-primary" type="submit">Lägg till Erfarenhet</button>
-    </EditForm>
-    @if (!string.IsNullOrEmpty(expMessage))
-    {
-        <div class="mt-2 alert alert-info">@expMessage</div>
-    }
-</section>
+    <!-- Erfarenhet -->
+    <section class="mb-5">
+        <h3>Lägg till Erfarenhet</h3>
+        <EditForm Model="newExperience" OnValidSubmit="HandleValidSubmitExperience" FormName="expForm">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <div class="mb-3">
+                <label for="expCompany" class="form-label">Företag</label>
+                <InputText id="expCompany" class="form-control" @bind-value="newExperience.Company" placeholder="Ange företag" />
+            </div>
+            <div class="mb-3">
+                <label for="expRole" class="form-label">Roll</label>
+                <InputText id="expRole" class="form-control" @bind-value="newExperience.Role" placeholder="Ange roll" />
+            </div>
+            <div class="mb-3">
+                <label for="expDate" class="form-label">Datum</label>
+                <InputText id="expDate" class="form-control" @bind-value="newExperience.Date" placeholder="Ange datum" />
+            </div>
+            <div class="mb-3">
+                <label for="expImage" class="form-label">Bild URL</label>
+                <InputText id="expImage" class="form-control" @bind-value="newExperience.ImageUrl" placeholder="Ange bild URL" />
+            </div>
+            <button class="btn btn-primary" type="submit">Lägg till Erfarenhet</button>
+        </EditForm>
+        @if (!string.IsNullOrEmpty(expMessage))
+        {
+            <div class="mt-2 alert alert-info">@expMessage</div>
+        }
+    </section>
+}
 
 @code {
-    // Instanser
+    private bool isAuthenticated = false;
+    private string loginError = "";
+    private LoginModel loginModel = new LoginModel();
+
+    // Definiera dina fördefinierade inloggningsuppgifter
+    private const string predefinedUsername = "admin";
+    private const string predefinedPassword = "marcus123";
+
+    // Admin-data
     public Technology newTechnology { get; set; } = new Technology();
     public Certificate newCertificate { get; set; } = new Certificate();
     public Experience newExperience { get; set; } = new Experience();
-
-    // Meddelanden
     public string techMessage { get; set; } = "";
     public string certMessage { get; set; } = "";
     public string expMessage { get; set; } = "";
+
+    private void HandleLogin()
+    {
+        if (loginModel.Username == predefinedUsername && loginModel.Password == predefinedPassword)
+        {
+            isAuthenticated = true;
+            loginError = "";
+        }
+        else
+        {
+            loginError = "Felaktigt användarnamn eller lösenord.";
+        }
+    }
 
     // Hantera inlämning av Teknologi
     public async Task HandleValidSubmitTechnology()
     {
         Console.WriteLine("Submit clicked(form)");
         var createdTech = await apiService.AddTechnologyAsync(newTechnology);
-       
         if (createdTech != null)
         {
             techMessage = "Teknologi tillagd!";
@@ -140,7 +166,6 @@
             techMessage = "Fel vid tillägg av teknologi.";
         }
     }
-
 
     // Hantera inlämning av Certifikat
     public async Task HandleValidSubmitCertificate()
@@ -172,5 +197,13 @@
         {
             expMessage = "Fel vid tillägg av erfarenhet.";
         }
+    }
+
+    public class LoginModel
+    {
+        [Required]
+        public string Username { get; set; }
+        [Required]
+        public string Password { get; set; }
     }
 }

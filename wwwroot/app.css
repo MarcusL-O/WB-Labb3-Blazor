@@ -1,9 +1,23 @@
 
 
+
+/* Footer med mörk bakgrund */
+.footer-dark {
+    background-color: #333333;
+    color: #ffffff;
+}
+/* Textinriktning */
+.text-left {
+    text-align: left;
+}
+
 .dark-mode {
     background-color: #333333;
     color: #ffffff;
 }
+
+
+
 
 /* Anpassade navigationslänkar */
 .custom-navlink {
@@ -15,10 +29,6 @@
         border-bottom: 2px solid #00ff90 !important;
     }
 
-/* Light/Dark mode-knapp (om du inte längre använder den, kan du ta bort den) */
-.mode-toggle {
-    display: none;
-}
 
 /* Sociala ikoner i footern */
 .footer-icon {
@@ -39,7 +49,7 @@
 
 /* Card-stil med hover-effekt */
 .card {
-    background-color: inherit; /* Anpassar sig efter dark-mode */
+    background-color: inherit;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     padding: 20px;
@@ -71,28 +81,22 @@
             color: #28a745; /* Grön färg vid hover */
         }
 
-/* Footer med mörk bakgrund */
-.footer-dark {
-    background-color: #333333;
-    color: #ffffff;
-}
+
+
 
 /* Om mig-box med border och lite ljusare bakgrund */
 .about-me {
-    background-color: #444444; /* Lite ljusare än dark-mode */
+    background-color: #444444;
     border: 1px solid #555555;
     border-radius: 8px;
     padding: 20px;
     color: #ffffff;
 }
 
-/* Textinriktning */
-.text-left {
-    text-align: left;
-}
-
 /* Övriga Bootstrap-anpassningar */
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #333333; /* Sätt en mörk bakgrund */
+    color: #ffffff;
+    margin: 0; /* Om det finns standardmarginaler */
 }
-
