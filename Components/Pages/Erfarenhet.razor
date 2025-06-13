@@ -1,4 +1,51 @@
 ﻿@page "/erfarenheter"
+@using Microsoft.EntityFrameworkCore
+@using labb3_Blazor.Models
+@using labb3_Blazor.Data
+@inject AppDbContext DbContext
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Erfarenheter</h2>
+    <div class="row justify-content-center">
+        @if (experiences == null)
+        {
+            <p>Laddar erfarenheter...</p>
+        }
+        else if (!experiences.Any())
+        {
+            <p>Inga erfarenheter att visa.</p>
+        }
+        else
+        {
+            @foreach (var exp in experiences)
+            {
+                <div class="col-md-4 mb-3 d-flex align-items-stretch">
+                    <div class="card w-100">
+                        <div class="card-body text-center">
+                            <img src="@exp.ImageUrl" alt="@exp.Company" class="img-fluid mb-3" style="max-height: 100px;" />
+                            <h5 class="card-title">@exp.Company</h5>
+                            <p class="card-text">@exp.Role</p>
+                            <p class="card-text"><small class="text-muted">@exp.Date</small></p>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+@code {
+    private List<Experience> experiences;
+
+    protected override async Task OnInitializedAsync()
+    {
+        experiences = await DbContext.Experiences.ToListAsync();
+    }
+}
+
+
+@*
+@page "/erfarenheter"
 @using labb3_Blazor.Models
 @using labb3_Blazor.Services
 @inject ApiService apiservice
@@ -41,3 +88,4 @@
         experiences = await apiservice.GetExperiencesAsync();
     }
 }
+*@

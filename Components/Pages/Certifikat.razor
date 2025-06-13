@@ -1,6 +1,68 @@
-﻿@page "/certifikat"
+﻿@using Microsoft.EntityFrameworkCore
+@using labb3_Blazor.Data;
+@page "/certifikat"
+@using labb3_Blazor.Models
+@inject AppDbContext DbContext
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Certifikat</h2>
+    <div class="row justify-content-center">
+        @if (certificates == null)
+        {
+            <p>Laddar certifikat...</p>
+        }
+        else if (!certificates.Any())
+        {
+            <p>Inga certifikat att visa.</p>
+        }
+        else
+        {
+            @foreach (var cert in certificates)
+            {
+                <div class="col-md-4 mb-3 d-flex align-items-stretch">
+                    <div class="card certificate-card w-100">
+                        <div class="card-body text-center">
+                            @if (!string.IsNullOrEmpty(cert.CredentialUrl))
+                            {
+                                <a href="@cert.CredentialUrl" target="_blank">
+                                    <img src="@cert.ImageUrl" alt="@cert.Title" class="img-fluid certificate-img mb-3" style="max-height: 100px;" />
+                                </a>
+                            }
+                            else
+                            {
+                                <img src="@cert.ImageUrl" alt="@cert.Title" class="img-fluid certificate-img mb-3" style="max-height: 100px;" />
+                            }
+                            <h5 class="card-title">@cert.Title</h5>
+                            <p class="card-text">@cert.Status</p>
+                            @if (cert.Status == "Done" && cert.DateAchieved.HasValue)
+                            {
+                                <p class="card-text"><small class="text-muted">@cert.DateAchieved.Value.ToString("yyyy-MM-dd")</small></p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+@code {
+    private List<Certificate> certificates;
+
+    protected override async Task OnInitializedAsync()
+    {
+        certificates = await DbContext.Certificates.ToListAsync();
+    }
+}
+
+@*
+@page "/certifikat"
 @using labb3_Blazor.Models;
+@using labb3_Blazor.Data;
 @inject HttpClient Http
+
+@inject AppDbContext DbContext
+
 
 <div class="container mt-4">
     <h2 class="text-center mb-4">Certifikat</h2>
@@ -60,3 +122,4 @@
         }
     }
 }
+*@

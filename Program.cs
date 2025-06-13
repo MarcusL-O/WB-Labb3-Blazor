@@ -3,6 +3,9 @@ using labb3_Blazor.Services;
 using labb3_Blazor.Data;
 using labb3_Blazor.Models;
 using Microsoft.EntityFrameworkCore;
+using static System.Net.Mime.MediaTypeNames;
+using System.Diagnostics.Metrics;
+using System;
 
 namespace labb3_Blazor
 {
@@ -74,6 +77,7 @@ namespace labb3_Blazor
                     db.SaveChanges();
                 }
             }
+            
 
             // Configure the HTTP request pipeline
             if (!app.Environment.IsDevelopment())
